@@ -1,5 +1,8 @@
-
-<div *ngIf="selectedActivity && selectedPeople; else spinnerLoader">
+<!-- Loading spinner does not interact well with animations between routes
+     I'm keeping this example to use in another point of the application where 
+    loading times are bigger and not route animation are allowed -->
+<!-- <div *ngIf="selectedActivity && selectedPeople; else spinnerLoader"> -->
+<div>
   <main>
     <form>
       <p>

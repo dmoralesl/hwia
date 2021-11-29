@@ -28,6 +28,10 @@ body {
   overflow: hidden;
 }
 
+app-root > div {
+  height: 100% !important;
+}
+
 // Modification of default dropdown select of material
 .dropdown-select {
     border: 1.5px solid var(--primary-light);

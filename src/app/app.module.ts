@@ -32,13 +32,8 @@ import { SignupComponent } from './components/signup/signup.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    // Firesbase
+    // Custom modules
     FirebaseModule,
-    // provideFirebaseApp(() => initializeApp(environment.firebase)),
-    // provideFirestore(() => getFirestore()),
-    // provideAuth(() => getAuth()),
-    // AuthGuardModule,
-    // Material components
     MaterialModule,
   ],
   providers: [],
