@@ -1,5 +1,5 @@
 
-<form [formGroup]="loginForm" (ngSubmit)="login()">
+<form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
 
     <p *ngIf="loginError" class="validation-error">
         <mat-icon>error_outline</mat-icon>Email or password are not valid

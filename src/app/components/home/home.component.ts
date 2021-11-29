@@ -88,9 +88,11 @@ export class HomeComponent implements OnInit {
       const data = rawData.map(item => item.doc.data());
       this.activities = data;
       this.activitiesControl.setValue(data[0].name);
+
       this.selectedActivity = data[0];
-      this.selectedPeople = this.people[0];
-      this.peopleControl.setValue(this.people[0].name);
+      const defaultPeople = this.people.filter(person => person.name.trim().toLowerCase() === environment.DEFAULT_PERSON.trim().toLowerCase())[0] as People;
+      this.selectedPeople = defaultPeople;
+      this.peopleControl.setValue(defaultPeople.name);
   
       this.refreshMoneyPerSecond();
       // Creating subscription to filter activities when data is loaded

@@ -2,7 +2,7 @@
   <a [routerLink]="['/']">How wrecked I am?</a>
 </h1>
 
-<form (click)="openAutocomplete()">
+<form (click)="openAutocomplete()" *ngIf="router.url == '/'">
   <mat-form-field appearance="fill" mat class="dropdown-select" *ngIf="currencySelected">
     <input type="text"
             matInput
