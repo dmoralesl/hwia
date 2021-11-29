@@ -1,8 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { DEFAULT_COIN, SECONDS_IN_YEAR } from './constants';
 
-import { Cashify } from 'cashify';
-
 export const getMoneyPerSecond = (money: number, coin?: string): number => {
   if (!coin) {
     return money / SECONDS_IN_YEAR;

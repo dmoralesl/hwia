@@ -1,4 +1,160 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code&display=swap");
+@import "./assets/styles/Variables";
+@import "./assets/styles/Mixins";
+@import "./assets/styles/functions";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* {
+  font-family: Fira Code !important;
+  line-height: 1.5;
+}
+// Needed to render icons since we override default font-family
+.mat-icon{
+  font-family: 'Material Icons' !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: linear-gradient(
+    105.14deg,
+    #f19143 1.4%,
+    #f55536 81.16%,
+    #f19143 81.17%
+  );
+  padding: 1rem 6rem;
+  overflow: hidden;
+}
+
+// Modification of default dropdown select of material
+.dropdown-select {
+    border: 1.5px solid var(--primary-light);
+    border-radius: 1rem;
+    background-color:var(--secondary);
+    color: var(--white);
+    text-align: center !important;
+    font-size: var(--text-font-normal) !important;
+    cursor: pointer;
+    // z-index: 10001;
+
+    div { padding: 0; }
+
+    .mat-form-field-infix  { padding: 0; border-top: 0; }
+
+    .mat-form-field-underline { display: none; }
+
+    .mat-form-field-flex { padding: 1rem !important; }
+
+    .mat-form-field-wrapper  { padding: 0; }
+
+    &::after {
+        content: ">";
+        transform: rotate(90deg) scale(.7);
+        position: absolute;
+        right: calc(50% - .4rem);
+        bottom: 2px;
+        z-index: 10000;
+    }
+}
+
+.mat-autocomplete-panel {
+    background-color: var(--primary);
+    border: 1px solid var(--white);
+    border-radius: 5px;
+    padding-top: .5rem;
+    // transform: translateY(-.4rem);
+    display: grid;
+    gap: .6rem;
+    width: 96% !important;
+    margin: auto;
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mat-option {
+        background-color: rgba(var(--strong-white), .3);
+        text-align: center;
+        border: 1px solid var(--white); 
+    }
+
+    .selected-option {
+        background-color: hexToRgba(#FF773D, .5) !important;
+    }
+
+}
+
+
+// Overiding material styles
+
+.outlined-button {
+  @include button;
+  border: 2px solid var(--primary);
+  border-radius: 1rem;
+  background-color: unset;
+  color: var(--white);
+  font-size: 1.1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--white);
+    color: var(--primary);
+    transform: scale(1.1);
+  }
+}
+
+.mat-button {
+  color: var(--white);
+  font-size: var(--text-font-normal);
+  border-radius: 1rem !important;
+}
+
+.mat-button:hover:not(.mat-button-disabled) .mat-button-focus-overlay,
+.mat-stroked-button:hover:not(.mat-button-disabled) .mat-button-focus-overlay {
+  opacity: 0.3 !important;
+}
+
+.validation-error {
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: larger;
+  margin: auto !important;
+
+  mat-icon {
+    color: var(--primary);
+  }
+
+}
+
+
+mat-form-field {
+  font-size: 1.2rem !important;
+}
+
+input {
+  color: var(--white);
+}
+
+form > button:not(.mat-button-disabled) {
+  color: var(--secondary  ) !important;
+  border: 2px solid var(--primary) !important;
+  background-color: var(--white) !important;
+  font-weight: bold;
+  font-size: larger;
+}
+
+input[type="number"] { text-align: center; }
+
+
+.important-text {
+  color: var(--primary-light);
+  font-weight: bolder;
+}

@@ -15,8 +15,10 @@ const setEnv = () => {
         storageBucket: '${process.env["FIREBASE_STORAGE_BUCKET"]}',
         messagingSenderId: '${process.env["FIREBASE_MESSAGING_SENDER_ID"]}',
         appId: '${process.env["FIREBASE_API_ID"]}',
-        measurementId: '${process.env["FIREBASE_MEASURAMENT_ID"]}'
+        measurementId: '${process.env["FIREBASE_MEASURAMENT_ID"]}',
     },
+    currencyApiKey: '${process.env["CURRENCY_CONVERT_API_KEY"]}',
+    currencyUrl: '${process.env["CURRENCY_CONVERT_URL"]}',
     production: true,
   };
   `;

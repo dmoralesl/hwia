@@ -1,0 +1,20 @@
+
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+
+    <p *ngIf="loginError" class="validation-error">
+        <mat-icon>error_outline</mat-icon>Email or password are not valid
+    </p>
+
+    <mat-form-field>
+        <input type="email" matInput placeholder="Email" formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input type="password" matInput placeholder="Password" formControlName="password">
+    </mat-form-field>
+    
+
+    <button mat-stroked-button color="accent" [disabled]="!loginForm.valid" class="btn-block">Login</button>
+</form>
+
+  

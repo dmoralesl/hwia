@@ -1,1 +1,45 @@
-<p *ngFor="let person of people"> {{ person?.name }}</p>
+<main>
+  <form class="example-form">
+    <p>
+        While you are 
+    </p>
+    <mat-form-field class="example-full-width" appearance="fill" mat class="dropdown-select">
+      <input type="text"
+             matInput
+             [matAutocomplete]="autoActivities"
+             [formControl]="activitiesControl">
+      <mat-autocomplete autoActiveFirstOption #autoActivities="matAutocomplete" disableOptionCentering>
+        <mat-option *ngFor="let activity of filteredActivitiesOptions | async" [value]="activity.name">
+            {{activity.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill" mat class="dropdown-select">
+        <input type="text"
+               matInput
+               [matAutocomplete]="autoPeople"
+               [formControl]="peopleControl">
+        <mat-autocomplete autoActiveFirstOption #autoPeople="matAutocomplete">
+          <mat-option *ngFor="let people of filteredPeopleOptions | async" [value]="people.name">
+              {{people.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <p>
+          earned
+      </p>
+      
+      <h3 *ngIf="selectedPeople && selectedActivity" class="important-text"> {{ moneyWon }}{{currencySelected?.symbol}}</h3>
+  </form>
+  <img src="/assets/images/ilustration1.svg" alt="">
+</main>
+
+
+<section>
+  <img src="/assets/images/ilustration2.svg" alt="">
+  <h4 *ngIf="selectedPeople">And since you gone into this page <span class="important-text">{{ selectedPeople?.name }}</span> has earned <span class="important-text">{{ calculateMoneySince(moneyPerSecond, sessionTime, currencyFactor) }}{{currencySelected?.symbol}}</span></h4>
+</section>
+  
+

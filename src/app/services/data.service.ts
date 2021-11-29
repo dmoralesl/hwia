@@ -1,25 +1,67 @@
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import {
+  CollectionReference,
+  DocumentData,
+  Firestore,
+  Query,
+  QueryConstraint,
+  WhereFilterOp,
+  addDoc,
+  collection,
+  collectionChanges,
+  collectionData,
+  deleteDoc,
+  query,
+  where
+} from '@angular/fire/firestore';
+import { DocumentReference, doc } from '@firebase/firestore';
 
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { People } from './../models/People';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataService {
+  
 
+  constructor(private firestore: Firestore) {}
 
-  constructor(
-    private http: HttpClient, 
-    private firestore: Firestore
-    ) { }
+  public getCollection(collectionName: string): Observable<any[]> {
+    const data: any = collection(this.firestore, collectionName);
+    return collectionData(data);
+  }
 
-    public getCollection(collectionName: string): Observable<People[]> {
-      const data: any = collection(this.firestore, collectionName);
-      return collectionData(data);
-       
-    }
+  public getCollectionFiltered( 
+    collectionName: string,
+    filterByAttribute: string,
+    filterByValue: string,
+    filterOperator: WhereFilterOp
+  ): Observable<any[]>  {
+    const rawData: CollectionReference = collection(
+      this.firestore,
+      collectionName
+    );
 
+    const filter: QueryConstraint = where(
+      filterByAttribute,
+      filterOperator,
+      filterByValue
+    );
+    const filteredData: Query<DocumentData> = query(rawData, filter);
+    return collectionChanges(filteredData)
+  }
+
+   public async addDocument(collectionName: string, document: any): Promise<DocumentReference> {
+    const rawData: CollectionReference = collection(
+      this.firestore,
+      collectionName
+    );
+    return addDoc(rawData, document);
+
+  }
+
+  public removeDocument(collectionName: string, documentId: string): Promise<void> {
+    const document: DocumentReference =  doc(this.firestore, collectionName, documentId);
+    return deleteDoc(document);
+  }
 }

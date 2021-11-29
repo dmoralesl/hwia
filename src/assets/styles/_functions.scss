@@ -1,0 +1,12 @@
+@function hexToRgba($hexcolor,$opacity){
+    $red:red($hexcolor);
+    $green:green($hexcolor);
+    $blue:blue($hexcolor);
+    $alpha:alpha($hexcolor);
+    @if $opacity == 1 or $opacity == 100% {
+      @return unquote("rgba(#{$red},#{$green},#{$blue},#{$alpha})");
+    }
+    @else{
+      @return unquote("rgba(#{$red},#{$green},#{$blue},#{$opacity})");
+    }
+  }

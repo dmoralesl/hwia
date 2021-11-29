@@ -1,0 +1,25 @@
+
+<form [formGroup]="signupForm" (ngSubmit)="createUser()">
+    <p *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched" class="validation-error">
+        <mat-icon>error_outline</mat-icon>Not valid mail
+    </p>
+    <p *ngIf="errorEmailExists" class="validation-error">
+        <mat-icon>error_outline</mat-icon>Email already exists. Choose another one.
+    </p>
+    <mat-form-field>
+        <input type="email" matInput placeholder="Email" formControlName="email">
+    </mat-form-field>
+
+
+    <mat-form-field>
+        <input type="password" matInput placeholder="Password" formControlName="password">
+    </mat-form-field>
+    <p *ngIf="signupForm.hasError('notSame') && signupForm.get('passwordRe')?.touched" class="validation-error">
+        <mat-icon>error_outline</mat-icon>Passwords must match
+    </p>
+    <mat-form-field>
+        <input type="password" matInput placeholder="Repeat password" formControlName="passwordRe">
+    </mat-form-field>
+
+    <button mat-stroked-button color="accent" [disabled]="!signupForm.valid" class="btn-block">Sign Up</button>
+</form>

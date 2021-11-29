@@ -1,0 +1,27 @@
+a {
+    position: absolute;
+    bottom: 2.5%;
+    right: 2.5%;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: black;
+
+    img { width: 30px; }
+
+    span { 
+        font-size: larger;
+        font-weight: bolder;
+    }
+
+    &:hover {
+        color: var(--white);
+        transform: scale(1.1);
+
+        img { 
+            filter: brightness(0) invert(1);
+        }
+    }
+
+}
