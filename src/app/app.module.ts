@@ -1,32 +1,19 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { AuthGuardModule } from '@angular/fire/auth-guard';
+import { AppRoutingModule } from './modules/app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { FirebaseModule } from './modules/firebase.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MaterialModule } from './modules/material.module';
 import { NgModule } from '@angular/core';
 import { SignupComponent } from './components/signup/signup.component';
-import { environment } from '../environments/environment';
-
-// TODO: Split material into separate module
-// TODO: Split firebase into separate module
 
 @NgModule({
   declarations: [
@@ -46,18 +33,13 @@ import { environment } from '../environments/environment';
     ReactiveFormsModule,
     HttpClientModule,
     // Firesbase
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore()),
-    provideAuth(() => getAuth()),
-    AuthGuardModule,
+    FirebaseModule,
+    // provideFirebaseApp(() => initializeApp(environment.firebase)),
+    // provideFirestore(() => getFirestore()),
+    // provideAuth(() => getAuth()),
+    // AuthGuardModule,
     // Material components
-    MatAutocompleteModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatTooltipModule
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
