@@ -3,14 +3,15 @@ import { Observable, interval, map, of, startWith, tap } from 'rxjs';
 import { _filter, calculateMoneySince, getMoneyPerSecond } from 'src/app/helpers';
 
 import { Activity } from 'src/app/models/Activity';
+import { AuthService } from 'src/app/services/auth.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { Currency } from './../../models/Currency';
 import { CurrencyService } from './../../services/currency.service';
 import { DataService } from 'src/app/services/data.service';
+import { FirebaseFilter } from 'src/app/models/Firebase';
 import { FormControl } from '@angular/forms';
 import { People } from 'src/app/models/People';
-
-const TIMER_UPDATE_INTERVAL = 3000;
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -41,7 +42,8 @@ export class HomeComponent implements OnInit {
   constructor (
     private dataService: DataService,
     private currencyService: CurrencyService,
-    private cacheService: CacheService
+    private cacheService: CacheService,
+    private authService: AuthService
   ) {  }
 
   async ngOnInit() {
@@ -75,8 +77,15 @@ export class HomeComponent implements OnInit {
       })
     );
 
-
-    this.dataService.getCollection('tasks').subscribe(data => {
+    const firebaseTasksFilters: FirebaseFilter[] = [
+      {
+        fieldPath: 'createdBy',
+        operator: 'in',
+        value: ['fixed', this.authService.user.getValue()?.email || ""]
+      }
+    ];
+    this.dataService.getCollectionFiltered('tasks', firebaseTasksFilters).subscribe(rawData => {
+      const data = rawData.map(item => item.doc.data());
       this.activities = data;
       this.activitiesControl.setValue(data[0].name);
       this.selectedActivity = data[0];
@@ -99,10 +108,10 @@ export class HomeComponent implements OnInit {
     });
     
     // Repeating check of time session
-    interval(TIMER_UPDATE_INTERVAL).subscribe(() => {
+    interval(environment.TIMER_UPDATE_INTERVAL).subscribe(() => {
       const currentTime = window.sessionStorage.getItem('timeSession');
       if (currentTime) {
-        const newSessionTime = parseInt(currentTime) + (TIMER_UPDATE_INTERVAL/1000)
+        const newSessionTime = parseInt(currentTime) + (environment.TIMER_UPDATE_INTERVAL/1000)
         window.sessionStorage.setItem('timeSession', (newSessionTime.toString()));
         this.sessionTime = newSessionTime;
       } else {
@@ -112,9 +121,7 @@ export class HomeComponent implements OnInit {
   }
   
   refreshMoneyPerSecond() {
-    console.log('refresigh')
     this.moneyPerSecond = getMoneyPerSecond(this.selectedPeople?.income);
-    console.log(this.selectedPeople, this.selectedActivity, this.currencyFactor, getMoneyPerSecond(this.selectedPeople?.income), this.currencySelected)
     this.moneyWon = calculateMoneySince(this.moneyPerSecond, (this.selectedActivity.time * 60) , this.currencyFactor)
   }
   

@@ -40,7 +40,6 @@ export class HeaderComponent implements OnInit {
         this.user = user;
     })
 
-    console.log('setting currencies list')
     this.currenciesList = await this.currecyService.setCurrenciesList();
 
     this.currecyService.getCurrentCurrency().subscribe(currency => {

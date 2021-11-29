@@ -64,7 +64,6 @@ export class CurrencyService {
   public changeCurrency(currency: Currency): void {
     this.currencySelected.next(currency);
     this.getCurrencyFactor(currency.id).subscribe(factor => {
-      console.warn(currency, factor, Object.values(factor)[0]);
       this.currencyFactor.next(Object.values(factor)[0]);
     })
   }

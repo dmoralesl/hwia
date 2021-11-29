@@ -15,6 +15,7 @@ import {
 } from '@angular/fire/firestore';
 import { DocumentReference, doc } from '@firebase/firestore';
 
+import { FirebaseFilter } from '../models/Firebase';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -33,21 +34,13 @@ export class DataService {
 
   public getCollectionFiltered( 
     collectionName: string,
-    filterByAttribute: string,
-    filterByValue: string,
-    filterOperator: WhereFilterOp
+    queries: FirebaseFilter[]
   ): Observable<any[]>  {
-    const rawData: CollectionReference = collection(
-      this.firestore,
-      collectionName
-    );
+    const rawData: CollectionReference = collection(this.firestore, collectionName);
 
-    const filter: QueryConstraint = where(
-      filterByAttribute,
-      filterOperator,
-      filterByValue
-    );
-    const filteredData: Query<DocumentData> = query(rawData, filter);
+    const filter: QueryConstraint[] = queries.map(q => where(q.fieldPath, q.operator, q.value));
+
+    const filteredData: Query<DocumentData> = query(rawData, ...filter);
     return collectionChanges(filteredData)
   }
 

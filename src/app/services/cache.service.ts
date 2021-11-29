@@ -12,7 +12,6 @@ export class CacheService {
 
       const item = sessionStorage.getItem(key);
       if (item === null) { reject('Key not found'); }
-      console.log(JSON.parse(item || ''));
       resolve(JSON.parse(item || ''));
     });
   }
