@@ -9,7 +9,7 @@
              [matAutocomplete]="autoActivities"
              [formControl]="activitiesControl">
       <mat-autocomplete autoActiveFirstOption #autoActivities="matAutocomplete" disableOptionCentering>
-        <mat-option *ngFor="let activity of filteredActivitiesOptions | async" [value]="activity.name">
+        <mat-option *ngFor="let activity of filteredActivitiesOptions | async" [value]="activity.name" [ngClass]="{'custom-item': activity.createdBy !== 'fixed'}">
             {{activity.name}}
         </mat-option>
       </mat-autocomplete>
