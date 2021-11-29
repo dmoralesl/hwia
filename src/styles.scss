@@ -37,6 +37,7 @@ body {
     text-align: center !important;
     font-size: var(--text-font-normal) !important;
     cursor: pointer;
+    position: relative;
 
     div { padding: 0; }
 
@@ -47,6 +48,15 @@ body {
     .mat-form-field-flex { padding: 1rem !important; }
 
     .mat-form-field-wrapper  { padding: 0; }
+
+    .clear-input-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      color: var(--white);
+      font-size: var(--text-font-normal);
+      cursor: pointer;
+    }
 
     &::after {
         content: ">";
@@ -163,4 +173,8 @@ input[type="number"] { text-align: center; }
 .important-text {
   color: var(--primary-light);
   font-weight: bolder;
+}
+
+mat-spinner {
+  margin: auto;
 }

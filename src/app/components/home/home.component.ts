@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable, interval, map, of, startWith, tap } from 'rxjs';
 import { _filter, calculateMoneySince, getMoneyPerSecond } from 'src/app/helpers';
 
@@ -19,6 +19,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  @Input() spinner: any;
 
   peopleControl = new FormControl();
   activitiesControl = new FormControl();
@@ -71,6 +73,7 @@ export class HomeComponent implements OnInit {
       map(value => _filter(value, this.people)),
       tap((optionsList) => {
         if (optionsList.length === 1) { 
+
           this.selectedPeople = optionsList[0];
           this.refreshMoneyPerSecond();
         }
@@ -87,7 +90,7 @@ export class HomeComponent implements OnInit {
     this.dataService.getCollectionFiltered('tasks', firebaseTasksFilters).subscribe(rawData => {
       const data = rawData.map(item => item.doc.data());
       this.activities = data;
-      this.activitiesControl.setValue(data[0].name);
+      this.activitiesControl.setValue(`${data[0].name}(${data[0].time}m)`);
 
       this.selectedActivity = data[0];
       const defaultPeople = this.people.filter(person => person.name.trim().toLowerCase() === environment.DEFAULT_PERSON.trim().toLowerCase())[0] as People;
@@ -120,12 +123,16 @@ export class HomeComponent implements OnInit {
         window.sessionStorage.setItem('timeSession', '0');
       }
     });
+
   }
   
   refreshMoneyPerSecond() {
     this.moneyPerSecond = getMoneyPerSecond(this.selectedPeople?.income);
-    this.moneyWon = calculateMoneySince(this.moneyPerSecond, (this.selectedActivity.time * 60) , this.currencyFactor)
+    this.moneyWon = calculateMoneySince(this.moneyPerSecond, (this.selectedActivity?.time * 60) , this.currencyFactor)
   }
   
+  clearInput(controlInput: any) {
+    controlInput.setValue('');
+  }
 
 }

@@ -1,41 +1,48 @@
-<!-- New activity form -->
-<section>
-  <h2>Create your custom activities</h2>
-  <form (ngSubmit)="addActivity()" [formGroup]="activityForm">
-      <p *ngIf="!activityForm.get('name')?.valid && activityForm.get('name')?.touched" class="validation-error">
-        <mat-icon>error_outline</mat-icon>Activity name is required
-      </p>
-      <mat-form-field class="large-input">
-        <input type="text" matInput placeholder="Activity Name" formControlName="name">
-      </mat-form-field>
-      <p *ngIf="!activityForm.get('time')?.valid && activityForm.get('time')?.touched" class="validation-error">
-        <mat-icon>error_outline</mat-icon>Activity duration is required
-      </p>
-      <p *ngIf="activityForm.get('time')?.hasError('pattern') && activityForm.get('time')?.touched" class="validation-error">
-        <mat-icon>error_outline</mat-icon>Duration field only accepts numbers
-      </p>
-      <mat-form-field>
-        <input type="number" matInput placeholder="Duration(m)" formControlName="time">
-      </mat-form-field>
-      
-      <button type="submit"
-        [matTooltip]="!activityForm.valid ? 'All fields must be filled with valid values' : ''"
-        mat-stroked-button color="accent" 
-        [disabled]="!activityForm.valid">
-        Add activity
-      </button>
-  </form>
-</section>
-<!-- Activities list -->
-<section class="activities-list">
-    <mat-card *ngFor="let activity of customActivities">
-        <mat-card-title>{{ activity.name }}</mat-card-title>
-        <mat-card-content>
-            {{ activity.time }} minutes
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button (click)="removeActivity(activity)"><mat-icon>delete</mat-icon></button>
-        </mat-card-actions>
-      </mat-card>
-      <h3 *ngIf="!customActivities.length">You didn't registered a custom activity yet!</h3>
-</section>
+<div *ngIf="customActivities.length;else spinnerLoader">
+  <!-- New activity form -->
+  <section>
+    <h2>Create your custom activities</h2>
+    <form (ngSubmit)="addActivity()" [formGroup]="activityForm">
+        <p *ngIf="!activityForm.get('name')?.valid && activityForm.get('name')?.touched" class="validation-error">
+          <mat-icon>error_outline</mat-icon>Activity name is required
+        </p>
+        <mat-form-field class="large-input">
+          <input type="text" matInput placeholder="Activity Name" formControlName="name">
+        </mat-form-field>
+        <p *ngIf="!activityForm.get('time')?.valid && activityForm.get('time')?.touched" class="validation-error">
+          <mat-icon>error_outline</mat-icon>Activity duration is required
+        </p>
+        <p *ngIf="activityForm.get('time')?.hasError('pattern') && activityForm.get('time')?.touched" class="validation-error">
+          <mat-icon>error_outline</mat-icon>Duration field only accepts numbers
+        </p>
+        <mat-form-field>
+          <input type="number" matInput placeholder="Duration(m)" formControlName="time">
+        </mat-form-field>
+        
+        <button type="submit"
+          [matTooltip]="!activityForm.valid ? 'All fields must be filled with valid values' : ''"
+          mat-stroked-button color="accent" 
+          [disabled]="!activityForm.valid">
+          Add activity
+        </button>
+    </form>
+  </section>
+  <!-- Activities list -->
+  <section class="activities-list">
+      <mat-card *ngFor="let activity of customActivities">
+          <mat-card-title>{{ activity.name }}</mat-card-title>
+          <mat-card-content>
+              {{ activity.time }} minutes
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button (click)="removeActivity(activity)"><mat-icon>delete</mat-icon></button>
+          </mat-card-actions>
+        </mat-card>
+        <h3 *ngIf="!customActivities.length">You didn't registered a custom activity yet!</h3>
+  </section>
+</div>
+
+
+<ng-template #spinnerLoader>
+  <mat-spinner value="warn"></mat-spinner>
+</ng-template>
