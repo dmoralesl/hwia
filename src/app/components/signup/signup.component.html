@@ -1,5 +1,5 @@
 
-<form [formGroup]="signupForm" (ngSubmit)="createUser()">
+<form [formGroup]="signupForm" (ngSubmit)="createUser()" class="signup-form">
     <p *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched" class="validation-error">
         <mat-icon>error_outline</mat-icon>Not valid mail
     </p>
