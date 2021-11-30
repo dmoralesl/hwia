@@ -88,3 +88,34 @@ h3 {
         }
     }
 }
+
+@media only screen and (max-width: 800px) {
+    div:first-child {
+        flex-direction: column;
+        gap: 3rem;
+        margin-top: 1rem;
+    }
+
+    section:first-child {
+        margin: 0;
+    }
+
+    h2 { margin: .5rem auto 0 auto; }
+    
+    mat-card { 
+        padding: 0 1rem;
+        position: unset;
+    }
+
+    form > .large-input {
+        width: 100% !important;
+    }
+    form > button { margin-top: 0; }
+
+    mat-card-actions > button { position: unset; }
+
+    .activities-list {
+        max-height: 35vh;
+        padding: 0;
+    }
+}

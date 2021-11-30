@@ -1,30 +1,36 @@
-<h1>
-  <a [routerLink]="['/']">How wrecked I am?</a>
-</h1>
+<mat-icon *ngIf="!displayHeader && isMobile" (click)="toggleMenu()" class="menu-icon">menu</mat-icon>
 
-<form (click)="openAutocomplete()" *ngIf="router.url == '/'">
-  <mat-form-field appearance="fill" mat class="dropdown-select" *ngIf="currencySelected">
-    <input type="text"
-            matInput
-            [ngModel]="currencySelected.displayName"
-            [matAutocomplete]="autoCurrencies"
-            [formControl]="currenciesControl"
-            #trigger="matAutocompleteTrigger" 
-            
-            >
-    <mat-autocomplete autoActiveFirstOption #autoCurrencies="matAutocomplete">
-      <mat-option *ngFor="let currency of filteredCurrenciesOptions | async" [value]="currency?.displayName" [ngClass]="{'selected-option': currency.id === currencySelected?.id}">
-          {{ currency?.displayName }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</form>
+<div *ngIf="displayHeader || !isMobile">
+  <h1 *ngIf="!isMobile">
+    <a [routerLink]="['/']">How wrecked I am?</a>
+  </h1>
 
-<div>
-  <button *ngIf="!user && router.url !== '/login'" [routerLink]="['/login']" routerLinkActive="is-active" class="outlined-button">LOGIN</button>
-  <button *ngIf="!user && router.url !== '/signup'r" [routerLink]="['/signup']" routerLinkActive="is-active" class="outlined-button">SIGN UP</button>
-  <button *ngIf="user && router.url !== '/'" [routerLink]="['/']" routerLinkActive="is-active" class="outlined-button">HOME</button>
-
-  <button *ngIf="user && router.url !== '/dashboard'" [routerLink]="['/dashboard']" routerLinkActive="is-active" class="outlined-button">Dashboard</button>
-  <button *ngIf="user" (click)="signOut()" routerLinkActive="is-active"  mat-button>LOGOUT</button>
+  <mat-icon *ngIf="isMobile" (click)="toggleMenu()" class="close-menu">close</mat-icon>
+  <form (click)="openAutocomplete()" *ngIf="router.url == '/'">
+    <mat-form-field appearance="fill" mat class="dropdown-select" *ngIf="currencySelected">
+      <input type="text"
+              matInput
+              [ngModel]="currencySelected.displayName"
+              [matAutocomplete]="autoCurrencies"
+              [formControl]="currenciesControl"
+              #trigger="matAutocompleteTrigger" 
+              
+              >
+      <mat-autocomplete autoActiveFirstOption #autoCurrencies="matAutocomplete">
+        <mat-option *ngFor="let currency of filteredCurrenciesOptions | async" [value]="currency?.displayName" [ngClass]="{'selected-option': currency.id === currencySelected?.id}">
+            {{ currency?.displayName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  
+  <div class="header-action">
+    <button *ngIf="!user && router.url !== '/login'" [routerLink]="['/login']" routerLinkActive="is-active" class="outlined-button">LOGIN</button>
+    <button *ngIf="!user && router.url !== '/signup'r" [routerLink]="['/signup']" routerLinkActive="is-active" class="outlined-button">SIGN UP</button>
+    <button *ngIf="user && router.url !== '/'" [routerLink]="['/']" routerLinkActive="is-active" class="outlined-button">HOME</button>
+  
+    <button *ngIf="user && router.url !== '/dashboard'" [routerLink]="['/dashboard']" routerLinkActive="is-active" class="outlined-button">Dashboard</button>
+    <button *ngIf="user" (click)="signOut()" routerLinkActive="is-active"  mat-button>LOGOUT</button>
+  </div>
 </div>
+<div *ngIf="displayHeader || !isMobile" class="header-overlay" (click)="toggleMenu()"></div>

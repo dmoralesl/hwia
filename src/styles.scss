@@ -24,7 +24,7 @@ body {
     #f55536 81.16%,
     #f19143 81.17%
   );
-  padding: 1rem 6rem;
+  padding: 1rem 7%;
   overflow: hidden;
 }
 
@@ -68,7 +68,7 @@ app-root > div {
         position: absolute;
         right: calc(50% - .4rem);
         bottom: 2px;
-        z-index: 10000;
+        z-index: 11;
     }
 }
 
@@ -181,4 +181,11 @@ input[type="number"] { text-align: center; }
 
 mat-spinner {
   margin: auto;
+}
+
+
+@media only screen and (max-width: 600px) {
+  body {
+    padding: 1rem 2rem;
+  }
 }

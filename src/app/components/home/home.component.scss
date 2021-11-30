@@ -59,9 +59,32 @@ section {
     justify-content: center;
     gap: 2rem;
     margin: auto;
-    transform: translateX(-150px);
+    // transform: translateX(-150px);
 
     img {
         width: 150px;
     }
 }
+
+@media only screen and (max-width: 800px) {
+    img {
+      display: none !important;
+    }
+    
+    form {
+        flex-basis: 100%;
+    }
+    
+    mat-form-field {
+        width: 100%;
+    }
+
+    section {
+        transform: unset;
+
+        h4 {
+            text-align: center;
+            font-size: 1.2rem;
+        }
+    }
+  }

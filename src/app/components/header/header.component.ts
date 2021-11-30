@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Observable, map, startWith } from 'rxjs';
 
 import { AuthService } from 'src/app/services/auth.service';
@@ -6,7 +7,6 @@ import { Currency } from 'src/app/models/Currency';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Router } from '@angular/router';
 import { User } from '@firebase/auth';
 import { _filterCurrencies } from 'src/app/helpers';
 
@@ -19,6 +19,13 @@ export class HeaderComponent implements OnInit {
 
   @ViewChild(MatAutocompleteTrigger) autocomplete!: MatAutocompleteTrigger;
   openAutocomplete() { this.autocomplete.openPanel(); }
+  
+  displayHeader: boolean = false; 
+  isMobile: boolean = window.innerWidth <= 875;
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.isMobile = event.target.innerWidth <= 875;
+  }
   
   currencySelected!: Currency;
   currenciesList: Currency[] = [];
@@ -36,6 +43,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    console.log(window.innerWidth, this.isMobile)
     this.authService.user.subscribe(user => {
         this.user = user;
     })
@@ -63,11 +71,19 @@ export class HeaderComponent implements OnInit {
         return result;
       })
     );
+
+    this.router.events.subscribe(event => {
+
+      if (event instanceof NavigationEnd && this.displayHeader && this.isMobile) {
+        this.displayHeader = false;
+      }
+    });
   }
   
 
   changeCurrency(currency: Currency) {
     this.currecyService.changeCurrency(currency);
+    this.displayHeader = false;
   }
 
   signOut(): void {
@@ -78,5 +94,9 @@ export class HeaderComponent implements OnInit {
       .catch(error => {
         console.log(error);
       });
+  }
+
+  toggleMenu(): void {
+    this.displayHeader = !this.displayHeader;
   }
 }

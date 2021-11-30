@@ -90,7 +90,7 @@ export class HomeComponent implements OnInit {
     this.dataService.getCollectionFiltered('tasks', firebaseTasksFilters).subscribe(rawData => {
       const data = rawData.map(item => item.doc.data());
       this.activities = data;
-      this.activitiesControl.setValue(`${data[0].name}(${data[0].time}m)`);
+      this.activitiesControl.setValue(data[0].name);
 
       this.selectedActivity = data[0];
       const defaultPeople = this.people.filter(person => person.name.trim().toLowerCase() === environment.DEFAULT_PERSON.trim().toLowerCase())[0] as People;
