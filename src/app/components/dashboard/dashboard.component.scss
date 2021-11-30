@@ -30,6 +30,9 @@ form {
 
 section {
     flex-basis: 50%;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
 
     &:first-child { 
         border-top: 1px solid var(--white);
