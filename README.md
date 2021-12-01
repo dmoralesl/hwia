@@ -2,12 +2,13 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.1.
 
-
 ## Next steps
 
 * [ ] Add social actions to show your comparatives
-* [ ]
-
+* [ ] Add tag to custom activities.
+* [ ] Add filters using custom activities tag or name search
+* [ ] Develop remember password system
+* [ ] Add profile management
 
 ## Development server
 
