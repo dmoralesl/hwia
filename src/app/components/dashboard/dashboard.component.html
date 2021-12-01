@@ -1,4 +1,8 @@
-<div *ngIf="customActivities.length;else spinnerLoader">
+<!-- Loading spinner does not interact well with animations between routes
+      If we prefer spinner over animations in some point, we can enable this line -->
+<!-- <div *ngIf="customActivities.length;else spinnerLoader"> -->
+
+<div>
   <!-- New activity form -->
   <section>
     <h2>Create your custom activities</h2>

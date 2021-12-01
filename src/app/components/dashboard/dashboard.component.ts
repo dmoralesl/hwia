@@ -30,10 +30,9 @@ export class DashboardComponent implements OnInit {
     const filterByUser: FirebaseFilter = {
       fieldPath: 'createdBy',
       operator: '==',
-      value: this.authService.user.getValue()?.email || ""
+      value: this.authService.user.value?.email || ""
     };
     this.dataService.getCollectionFiltered('tasks', [filterByUser]).subscribe(data => {
-
       data.map(activity => {
         if (activity.type === 'added') {
           this.customActivities.push( {id: activity.doc.id, ...activity.doc.data() } as Activity );
@@ -50,12 +49,12 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  addActivity() {
+  addActivity(): void {
     const activity: Activity = {
       name: this.activityForm.get('name')?.value,
       time: this.activityForm.get('time')?.value,
       category: 'custom',
-      createdBy: this.authService.user.getValue()?.email || "",
+      createdBy: this.authService.user.value?.email || "",
       createdAt: new Date()
     };
 

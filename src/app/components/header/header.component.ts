@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, map, startWith, tap } from 'rxjs';
 
 import { AuthService } from 'src/app/services/auth.service';
 import { Currency } from 'src/app/models/Currency';
@@ -43,19 +43,18 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    console.log(window.innerWidth, this.isMobile)
     this.authService.user.subscribe(user => {
         this.user = user;
     })
 
     this.currenciesList = await this.currecyService.setCurrenciesList();
 
-    this.currecyService.getCurrentCurrency().subscribe(currency => {
+    this.currecyService.currencySelected.subscribe(currency => {
       this.currencySelected = currency;
     });
 
 
-    // Creating subscription to filter people when data is loaded
+    // Creating subscription to filter currencies when data is loaded
     this.filteredCurrenciesOptions = this.currenciesControl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -72,8 +71,8 @@ export class HeaderComponent implements OnInit {
       })
     );
 
-    this.router.events.subscribe(event => {
 
+    this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd && this.displayHeader && this.isMobile) {
         this.displayHeader = false;
       }
@@ -81,8 +80,8 @@ export class HeaderComponent implements OnInit {
   }
   
 
-  changeCurrency(currency: Currency) {
-    this.currecyService.changeCurrency(currency);
+  async changeCurrency(currency: Currency): Promise<void> {
+    await this.currecyService.changeCurrency(currency);
     this.displayHeader = false;
   }
 

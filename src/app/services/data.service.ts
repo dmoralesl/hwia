@@ -4,7 +4,6 @@ import {
   Firestore,
   Query,
   QueryConstraint,
-  WhereFilterOp,
   addDoc,
   collection,
   collectionChanges,
@@ -37,7 +36,6 @@ export class DataService {
     queries: FirebaseFilter[]
   ): Observable<any[]>  {
     const rawData: CollectionReference = collection(this.firestore, collectionName);
-
     const filter: QueryConstraint[] = queries.map(q => where(q.fieldPath, q.operator, q.value));
 
     const filteredData: Query<DocumentData> = query(rawData, ...filter);

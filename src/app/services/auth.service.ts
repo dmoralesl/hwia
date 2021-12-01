@@ -20,8 +20,6 @@ export class AuthService {
     });
   }
 
-
-
   // Sign in with email and password
   login(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);

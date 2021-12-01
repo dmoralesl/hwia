@@ -23,11 +23,14 @@ export class CacheService {
   removeItem(key: string): Promise<void> {
     return new Promise((resolve, reject) => {
 
-      if (this.getItem(key) === null) { reject(); }
-
-      sessionStorage.removeItem(key);
-      resolve();
+      this.getItem(key)
+        .then(() => {sessionStorage.removeItem(key); resolve() })
+        .catch(() => reject());
     });
+  }
+
+  clear(): void {
+    sessionStorage.clear();
   }
 
 

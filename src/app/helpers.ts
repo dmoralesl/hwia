@@ -19,9 +19,8 @@ export const calculateMoneySince = (
 
 export const _filter = (name: string, target: Array<any>): Array<any> => {
   const filterValue = name.toLowerCase();
-  return target.filter((option) =>
-    option.name.toLowerCase().includes(filterValue)
-  );
+  
+  return target.filter(option => option.name?.toLowerCase().includes(filterValue));
 };
 
 export const _filterCurrencies = (name: string, target: Array<any>): Array<any> => {

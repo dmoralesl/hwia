@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
   constructor (
     private dataService: DataService,
     private currencyService: CurrencyService,
-    private cacheService: CacheService,
+    public cacheService: CacheService,
     private authService: AuthService
   ) {  }
 
@@ -69,14 +69,15 @@ export class HomeComponent implements OnInit {
     // Creating subscription to filter people when data is loaded
     this.filteredPeopleOptions = this.peopleControl.valueChanges.pipe(
       startWith(''),
-      map(value => (typeof value === 'string' ? value : value.name)),
-      map(value => _filter(value, this.people)),
-      tap((optionsList) => {
+      map(value => {
+        value = typeof value === 'string' ? value : value.name;
+        const optionsList = _filter(value, this.people);
+      
         if (optionsList.length === 1) { 
-
           this.selectedPeople = optionsList[0];
           this.refreshMoneyPerSecond();
         }
+        return optionsList;
       })
     );
 
@@ -84,7 +85,7 @@ export class HomeComponent implements OnInit {
       {
         fieldPath: 'createdBy',
         operator: 'in',
-        value: ['fixed', this.authService.user.getValue()?.email || ""]
+        value: ['fixed', this.authService.user.value?.email || ""]
       }
     ];
     this.dataService.getCollectionFiltered('tasks', firebaseTasksFilters).subscribe(rawData => {
@@ -98,20 +99,24 @@ export class HomeComponent implements OnInit {
       this.peopleControl.setValue(defaultPeople.name);
   
       this.refreshMoneyPerSecond();
+
       // Creating subscription to filter activities when data is loaded
       this.filteredActivitiesOptions = this.activitiesControl.valueChanges.pipe(
         startWith(''),
-        map(value => (typeof value === 'string' ? value : value.name)),
-        map(value => _filter(value, this.activities)),
-        tap((optionsList) => {
+        map(value => {
+          value = typeof value === 'string' ? value : value.name;
+        
+          const optionsList = _filter(value, this.activities);
+
           if (optionsList.length === 1) { 
             this.selectedActivity = optionsList[0];
             this.refreshMoneyPerSecond();
           }
+          return optionsList;
         })
       );
     });
-    
+
     // Repeating check of time session
     interval(environment.TIMER_UPDATE_INTERVAL).subscribe(() => {
       const currentTime = window.sessionStorage.getItem('timeSession');

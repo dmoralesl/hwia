@@ -13,13 +13,6 @@ export class CurrencyService {
 
   currenciesList: Currency[] = [];
 
-  // currencySelected: BehaviorSubject<Currency> = new BehaviorSubject({
-  //   name: 'United States Dollar',
-  //   displayName: '$ (UDS)',
-  //   symbol: '$',
-  //   id: 'USD'
-  // });
-
   currencySelected: BehaviorSubject<Currency> = new BehaviorSubject({} as Currency);
 
   currencyFactor: BehaviorSubject<number> = new BehaviorSubject(1);
@@ -32,7 +25,11 @@ export class CurrencyService {
   public setCurrenciesList(): Promise<Currency[]> {
     return new Promise((resolve, reject) => {
         this.cacheService.getItem('currenciesList')
-          .then(currenciesList => this.currenciesList = currenciesList as Currency[])
+          .then(currenciesList => {
+            this.currenciesList = currenciesList as Currency[];
+            this.changeCurrency(this.currenciesList?.filter(currency => currency.id === environment.DEFAULT_CURRENCY)[0]);
+            resolve(this.currenciesList);
+          }) 
           .catch(error => {
             this.http.get(`${environment.currencyUrl}currencies`, {
               params: {
@@ -48,23 +45,20 @@ export class CurrencyService {
                 });
               });
               this.cacheService.setItem('currenciesList', this.currenciesList);
+              this.changeCurrency(this.currenciesList?.filter(currency => currency.id === environment.DEFAULT_CURRENCY)[0]);
+              resolve(this.currenciesList);
             });
           })
-          .finally(() => {
-            this.changeCurrency(this.currenciesList.filter(currency => currency.id === environment.DEFAULT_CURRENCY)[0]);
-            resolve(this.currenciesList);
-          });
         });
   }
 
-  public getCurrentCurrency(): Observable<Currency> {
-    return this.currencySelected;
-  }
-
-  public changeCurrency(currency: Currency): void {
-    this.currencySelected.next(currency);
-    this.getCurrencyFactor(currency.id).subscribe(factor => {
-      this.currencyFactor.next(Object.values(factor)[0]);
+  public changeCurrency(currency: Currency): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.currencySelected.next(currency);
+      this.getCurrencyFactor(currency.id).subscribe(factor => {
+        this.currencyFactor.next(Object.values(factor)[0]);
+        resolve();
+      });
     })
   }
 
