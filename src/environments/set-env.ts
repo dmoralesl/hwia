@@ -20,7 +20,12 @@ const setEnv = () => {
     currencyApiKey: '${process.env["CURRENCY_CONVERT_API_KEY"]}',
     currencyUrl: '${process.env["CURRENCY_CONVERT_URL"]}',
     production: true,
-  };
+  },
+    currencyApiKey: '${process.env["CURRENCY_CONVERT_API_KEY"]}',
+    currencyUrl: '${process.env["CURRENCY_CONVERT_URL"]}',
+    DEFAULT_CURRENCY: '${process.env["DEFAULT_CURRENCY"]}',
+    DEFAULT_PERSON: '${process.env["DEFAULT_PERSON"]}',
+    TIMER_UPDATE_INTERVAL: ${process.env["TIMER_UPDATE_INTERVAL"]},;
   `;
     console.log(colors.magenta('The file `environment.ts` will be written with the following content: \n'));
     writeFile(targetPath, envConfigFile, (err: any) => {
